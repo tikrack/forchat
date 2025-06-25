@@ -2,15 +2,38 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>چت هکری ملایم</title>
+    <title>چت حرفه‌ای</title>
     <style>
         :root {
-            --bg-dark: #1e1e1e;
+            --bg: #1e1e1e;
             --bg-chat: #252525;
-            --green-soft: #33ff99;
-            --green-light: #66ffc2;
-            --green-muted: #99ffe0;
-            --border-green: #33cc88;
+            --text: #33ff99;
+            --text-light: #66ffc2;
+            --border: #33cc88;
+        }
+
+        body.theme-default {
+            --bg: #1e1e1e;
+            --bg-chat: #252525;
+            --text: #33ff99;
+            --text-light: #66ffc2;
+            --border: #33cc88;
+        }
+
+        body.theme-green {
+            --bg: #0b2f23;
+            --bg-chat: #12382e;
+            --text: #34ffb4;
+            --text-light: #a8ffe7;
+            --border: #20c997;
+        }
+
+        body.theme-blue {
+            --bg: #1a2332;
+            --bg-chat: #232f45;
+            --text: #9fd3ff;
+            --text-light: #d0ecff;
+            --border: #3399ff;
         }
 
         * {
@@ -22,8 +45,8 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: var(--bg-dark);
-            color: var(--green-soft);
+            background-color: var(--bg);
+            color: var(--text);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -32,39 +55,84 @@
         .wrapper {
             width: 90vw;
             height: 90vh;
-            border: 1px solid var(--border-green);
             background-color: var(--bg-chat);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
-            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 12px rgba(51, 255, 153, 0.1);
+            position: relative;
+        }
+
+        /* دکمه سه نقطه */
+        .menu-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 40px;
+            left: 10px;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .menu-dropdown button {
+            background: none;
+            border: none;
+            color: var(--text);
+            text-align: right;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #about {
+            display: none;
+            padding: 15px;
+            background-color: var(--bg-chat);
+            font-size: 13px;
+            line-height: 1.7;
+            border-top: 1px solid var(--border);
         }
 
         #chat {
             flex: 1;
             padding: 16px;
             overflow-y: auto;
-            background-color: var(--bg-dark);
+            background-color: var(--bg);
             display: flex;
             flex-direction: column;
             gap: 10px;
             scroll-behavior: smooth;
-            font-size: 15px;
-            line-height: 1.7;
+            font-size: 13.5px;
+            line-height: 1.6;
         }
 
         .message {
-            background-color: rgba(51, 255, 153, 0.06);
-            border-left: 3px solid var(--green-light);
-            padding: 10px 12px;
+            background-color: rgba(0, 255, 153, 0.05);
+            border-right: 3px solid var(--border);
+            padding: 8px 10px;
             border-radius: 6px;
             white-space: pre-wrap;
+            text-indent: 0;
         }
 
         .message .username {
             font-weight: bold;
-            color: var(--green-light);
+            color: var(--text-light);
             margin-bottom: 3px;
             display: block;
         }
@@ -72,14 +140,14 @@
         .message .time {
             display: block;
             font-size: 11px;
-            color: var(--green-muted);
+            color: var(--text-light);
             margin-top: 5px;
         }
 
         #form {
             display: flex;
             flex-direction: column;
-            border-top: 1px solid var(--border-green);
+            border-top: 1px solid var(--border);
             padding: 10px;
             background-color: var(--bg-chat);
         }
@@ -90,29 +158,33 @@
             max-height: 200px;
             overflow-y: hidden;
             padding: 10px;
-            font-size: 15px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--green-light);
-            color: var(--green-soft);
+            font-size: 14px;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
             border-radius: 5px;
             line-height: 1.6;
         }
 
-        button {
+        .actions {
+            display: flex;
+            justify-content: space-between;
             margin-top: 10px;
-            padding: 10px;
-            font-size: 15px;
-            font-weight: bold;
-            background-color: #2a4d3c;
-            color: var(--green-soft);
-            border: 1px solid var(--green-light);
-            cursor: pointer;
+        }
+
+        button {
+            padding: 6px 14px;
+            font-size: 14px;
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
             border-radius: 5px;
-            transition: background-color 0.2s ease;
+            cursor: pointer;
         }
 
         button:hover {
-            background-color: #3f6d56;
+            background-color: var(--border);
+            color: #000;
         }
 
         #chat::-webkit-scrollbar {
@@ -120,18 +192,34 @@
         }
 
         #chat::-webkit-scrollbar-thumb {
-            background-color: var(--green-muted);
+            background-color: var(--text-light);
         }
     </style>
 </head>
-<body>
+<body class="theme-default">
 
 <div class="wrapper">
+    <button class="menu-button" onclick="toggleMenu()">⋮</button>
+    <div class="menu-dropdown" id="menu">
+        <button onclick="setTheme('default')">🖤 تم تیره ساده</button>
+        <button onclick="setTheme('green')">💚 تم سبز رترو</button>
+        <button onclick="setTheme('blue')">🔵 تم آبی ملایم</button>
+        <button onclick="toggleAbout()">ℹ️ درباره من</button>
+    </div>
+
     <div id="chat"></div>
+
+    <div id="about">
+        این پروژه چت ساده برای آزمایش رابط کاربری و تجربه کاربری طراحی شده است.<br>
+        می‌توانید پیام‌های چند خطی بنویسید و از تم‌های مختلف لذت ببرید!
+    </div>
 
     <form id="form">
         <textarea id="message" placeholder="پیام خود را بنویسید..."></textarea>
-        <button type="submit">ارسال</button>
+        <div class="actions">
+            <button type="submit">ارسال</button>
+            <button type="button" onclick="fetchMessages()">🔄 بروزرسانی</button>
+        </div>
     </form>
 </div>
 
@@ -139,8 +227,10 @@
     const chat = document.getElementById('chat');
     const form = document.getElementById('form');
     const textarea = document.getElementById('message');
+    const menu = document.getElementById('menu');
+    const about = document.getElementById('about');
 
-    // افزایش خودکار ارتفاع textarea
+    // افزایش ارتفاع textarea
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
         textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
@@ -161,12 +251,10 @@
                 data.forEach(msg => {
                     const div = document.createElement('div');
                     div.className = 'message';
-
                     const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', {
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-
                     div.innerHTML = `
             <span class="username">${msg.username}</span>
             ${msg.message}
@@ -200,7 +288,21 @@
             });
     });
 
-    setInterval(fetchMessages, 3000);
+    function toggleMenu() {
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function setTheme(name) {
+        document.body.className = 'theme-' + name;
+        menu.style.display = 'none';
+    }
+
+    function toggleAbout() {
+        about.style.display = about.style.display === 'block' ? 'none' : 'block';
+        menu.style.display = 'none';
+    }
+
+    // حذف setInterval – دستی با دکمه
     fetchMessages();
 </script>
 
