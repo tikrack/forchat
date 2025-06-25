@@ -2,8 +2,17 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>چت هکری ساده</title>
+    <title>چت هکری ملایم</title>
     <style>
+        :root {
+            --bg-dark: #1e1e1e;
+            --bg-chat: #252525;
+            --green-soft: #33ff99;
+            --green-light: #66ffc2;
+            --green-muted: #99ffe0;
+            --border-green: #33cc88;
+        }
+
         * {
             box-sizing: border-box;
             font-family: 'Courier New', monospace;
@@ -13,8 +22,8 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: #0d0d0d;
-            color: #00ff66;
+            background-color: var(--bg-dark);
+            color: var(--green-soft);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,67 +32,70 @@
         .wrapper {
             width: 90vw;
             height: 90vh;
-            border: 2px solid #00ff66;
-            background-color: #111;
+            border: 1px solid var(--border-green);
+            background-color: var(--bg-chat);
             display: flex;
             flex-direction: column;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 0 12px rgba(51, 255, 153, 0.1);
         }
 
         #chat {
             flex: 1;
             padding: 16px;
             overflow-y: auto;
-            background-color: #000;
+            background-color: var(--bg-dark);
             display: flex;
             flex-direction: column;
             gap: 10px;
             scroll-behavior: smooth;
             font-size: 15px;
+            line-height: 1.7;
         }
 
         .message {
-            background-color: rgba(0, 255, 102, 0.05);
-            border-left: 4px solid #00ff66;
-            padding: 10px;
-            border-radius: 4px;
+            background-color: rgba(51, 255, 153, 0.06);
+            border-left: 3px solid var(--green-light);
+            padding: 10px 12px;
+            border-radius: 6px;
             white-space: pre-wrap;
         }
 
         .message .username {
             font-weight: bold;
-            color: #00ff99;
-            margin-bottom: 4px;
+            color: var(--green-light);
+            margin-bottom: 3px;
             display: block;
         }
 
         .message .time {
             display: block;
             font-size: 11px;
-            color: #66ffcc;
-            margin-top: 4px;
+            color: var(--green-muted);
+            margin-top: 5px;
         }
 
         #form {
             display: flex;
             flex-direction: column;
-            border-top: 1px solid #00ff66;
+            border-top: 1px solid var(--border-green);
             padding: 10px;
-            background-color: #0d0d0d;
+            background-color: var(--bg-chat);
         }
 
         textarea {
             resize: none;
             min-height: 50px;
-            max-height: 180px;
+            max-height: 200px;
             overflow-y: hidden;
             padding: 10px;
             font-size: 15px;
-            background-color: #000;
-            border: 1px solid #00ff66;
-            color: #00ff66;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--green-light);
+            color: var(--green-soft);
             border-radius: 5px;
+            line-height: 1.6;
         }
 
         button {
@@ -91,16 +103,16 @@
             padding: 10px;
             font-size: 15px;
             font-weight: bold;
-            background-color: #002b1a;
-            color: #00ff66;
-            border: 1px solid #00ff66;
+            background-color: #2a4d3c;
+            color: var(--green-soft);
+            border: 1px solid var(--green-light);
             cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.2s;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
         }
 
         button:hover {
-            background-color: #004d33;
+            background-color: #3f6d56;
         }
 
         #chat::-webkit-scrollbar {
@@ -108,7 +120,7 @@
         }
 
         #chat::-webkit-scrollbar-thumb {
-            background-color: #00ff66;
+            background-color: var(--green-muted);
         }
     </style>
 </head>
@@ -118,7 +130,7 @@
     <div id="chat"></div>
 
     <form id="form">
-        <textarea id="message" placeholder="پیام چند خطی بنویسید..."></textarea>
+        <textarea id="message" placeholder="پیام خود را بنویسید..."></textarea>
         <button type="submit">ارسال</button>
     </form>
 </div>
@@ -128,10 +140,10 @@
     const form = document.getElementById('form');
     const textarea = document.getElementById('message');
 
-    // تنظیم ارتفاع خودکار با تایپ
+    // افزایش خودکار ارتفاع textarea
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
+        textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
     });
 
     // ارسال با Ctrl+Enter
