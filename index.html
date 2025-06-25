@@ -2,218 +2,220 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>چت حرفه‌ای</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>چت حرفه‌ای با تم‌های مدرن</title>
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-chat: #f3f3f3;
-            --text: #222222;
-            --text-light: #555;
-            --border: #cccccc;
-            --button-bg: #e0e0e0;
-            --button-text: #222;
-        }
-
-        body.theme-classic {
-            --bg: #ffffff;
-            --bg-chat: #f3f3f3;
+            --bg: #fff;
+            --bg-chat: #f9f9f9;
             --text: #222;
-            --text-light: #555;
-            --border: #ccc;
-            --button-bg: #e0e0e0;
-            --button-text: #222;
+            --border: #ddd;
+            --accent: #007bff;
+            --input-bg: #fff;
         }
 
-        body.theme-green {
-            --bg: #f2fff5;
-            --bg-chat: #e6ffed;
-            --text: #006644;
-            --text-light: #00875a;
-            --border: #b5e4c2;
-            --button-bg: #d3f9df;
-            --button-text: #005233;
+        body.theme-telegram-light {
+            --bg: #ffffff;
+            --bg-chat: #e5f1fb;
+            --text: #2e2e2e;
+            --border: #c0deed;
+            --accent: #0088cc;
+            --input-bg: #ffffff;
         }
 
-        body.theme-blue {
-            --bg: #f0f8ff;
-            --bg-chat: #e6f3ff;
-            --text: #004080;
-            --text-light: #0066cc;
-            --border: #99cfff;
-            --button-bg: #cce6ff;
-            --button-text: #003366;
+        body.theme-telegram-dark {
+            --bg: #1c1c1c;
+            --bg-chat: #2a2f32;
+            --text: #e5e5e5;
+            --border: #444;
+            --accent: #5db1f0;
+            --input-bg: #202225;
+        }
+
+        body.theme-github-light {
+            --bg: #f6f8fa;
+            --bg-chat: #ffffff;
+            --text: #24292e;
+            --border: #d1d5da;
+            --accent: #0366d6;
+            --input-bg: #ffffff;
+        }
+
+        body.theme-github-dark {
+            --bg: #0d1117;
+            --bg-chat: #161b22;
+            --text: #c9d1d9;
+            --border: #30363d;
+            --accent: #58a6ff;
+            --input-bg: #0d1117;
+        }
+
+        body.theme-material-light {
+            --bg: #fafafa;
+            --bg-chat: #ffffff;
+            --text: #212121;
+            --border: #e0e0e0;
+            --accent: #6200ea;
+            --input-bg: #ffffff;
+        }
+
+        body.theme-material-dark {
+            --bg: #121212;
+            --bg-chat: #1e1e1e;
+            --text: #e0e0e0;
+            --border: #333333;
+            --accent: #bb86fc;
+            --input-bg: #1c1c1c;
         }
 
         * {
             box-sizing: border-box;
-            font-family: 'Tahoma', sans-serif;
+            font-family: Tahoma, sans-serif;
         }
 
         html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
             height: 100%;
             background-color: var(--bg);
             color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .wrapper {
-            width: 90vw;
-            height: 90vh;
-            background-color: var(--bg-chat);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            background-color: var(--bg-chat);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dropdown {
             position: relative;
         }
 
-        /* منو تنظیمات */
-        .menu-button {
+        .dropdown-content {
+            display: none;
             position: absolute;
-            top: 10px;
-            left: 10px;
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .menu-dropdown {
-            position: absolute;
-            top: 40px;
-            left: 10px;
+            top: 35px;
+            right: calc(-100% + 10px);
             background-color: var(--bg);
             border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 10px;
-            border-radius: 6px;
-            display: none;
-            flex-direction: column;
-            gap: 8px;
+            min-width: 160px;
             z-index: 10;
         }
 
-        .menu-dropdown button {
+        .dropdown-content button,
+        .dropdown-content a {
+            display: block;
+            width: 100%;
+            text-align: right;
+            padding: 6px 12px;
             background: none;
             border: none;
             color: var(--text);
-            text-align: right;
+            text-decoration: none;
             cursor: pointer;
             font-size: 14px;
         }
 
-        .github-link {
-            text-decoration: none;
-            color: var(--text-light);
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 14px;
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
 
         #chat {
             flex: 1;
             padding: 16px;
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-right: 3px solid var(--accent);
+            padding: 10px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+
+        #form {
+            padding: 12px;
+            border-top: 1px solid var(--border);
             background-color: var(--bg);
             display: flex;
             flex-direction: column;
             gap: 10px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .message {
-            background-color: rgba(0, 0, 0, 0.03);
-            border-right: 3px solid var(--border);
-            padding: 8px 10px;
-            border-radius: 6px;
-            white-space: pre-wrap;
-            text-indent: 0;
-        }
-
-        .message .username {
-            font-weight: bold;
-            color: var(--text-light);
-            margin-bottom: 3px;
-            display: block;
-        }
-
-        .message .time {
-            display: block;
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 5px;
-        }
-
-        #form {
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border);
-            padding: 10px;
-            background-color: var(--bg-chat);
         }
 
         textarea {
-            resize: none;
-            min-height: 50px;
+            width: 100%;
+            min-height: 60px;
             max-height: 180px;
-            overflow-y: hidden;
             padding: 10px;
             font-size: 14px;
-            background-color: var(--bg);
-            border: 1px solid var(--border);
+            resize: none;
+            background-color: var(--input-bg);
             color: var(--text);
-            border-radius: 5px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             line-height: 1.6;
         }
 
         .actions {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
             gap: 10px;
         }
 
         button {
+            background-color: var(--accent);
+            color: #fff;
+            border: none;
             padding: 8px 14px;
-            font-size: 14px;
-            background-color: var(--button-bg);
-            color: var(--button-text);
-            border: 1px solid var(--border);
             border-radius: 5px;
+            font-size: 14px;
             cursor: pointer;
             min-width: 100px;
         }
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        #chat::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #chat::-webkit-scrollbar-thumb {
-            background-color: var(--border);
+        @media (max-width: 600px) {
+            .topbar {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
     </style>
 </head>
 <body>
-
 <div class="wrapper">
-    <a href="https://github.com/tikrack" target="_blank" class="github-link">GitHub ↗</a>
-    <button class="menu-button" onclick="toggleMenu()">⋮</button>
-    <div class="menu-dropdown" id="menu">
-        <button onclick="setTheme('classic')">☀️ تم روشن کلاسیک</button>
-        <button onclick="setTheme('green')">🌿 تم سبز ملایم</button>
-        <button onclick="setTheme('blue')">🔷 تم آبی آسمانی</button>
+    <div class="topbar">
+        <strong>چت</strong>
+        <div class="dropdown">
+            <button>⋮</button>
+            <div class="dropdown-content">
+                <button onclick="setTheme('telegram-light')">🌞 تلگرام روشن</button>
+                <button onclick="setTheme('telegram-dark')">🌙 تلگرام تیره</button>
+                <button onclick="setTheme('github-light')">🧾 گیت‌هاب روشن</button>
+                <button onclick="setTheme('github-dark')">🕶 گیت‌هاب تیره</button>
+                <button onclick="setTheme('material-light')">🎨 متریال روشن</button>
+                <button onclick="setTheme('material-dark')">🌌 متریال تاریک</button>
+                <a href="https://github.com/tikrack" target="_blank">🔗 GitHub من</a>
+            </div>
+        </div>
     </div>
 
     <div id="chat"></div>
@@ -231,42 +233,33 @@
     const chat = document.getElementById('chat');
     const form = document.getElementById('form');
     const textarea = document.getElementById('message');
-    const menu = document.getElementById('menu');
     const sendBtn = document.getElementById('sendBtn');
     const refreshBtn = document.getElementById('refreshBtn');
 
-    // ارتفاع خودکار textarea
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
         textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
     });
 
-    // Ctrl + Enter برای ارسال
     textarea.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && e.ctrlKey) {
             form.dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}));
         }
     });
 
-    function toggleMenu() {
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-    }
-
     function setTheme(name) {
         document.body.className = 'theme-' + name;
         localStorage.setItem('theme', name);
-        menu.style.display = 'none';
     }
 
     function loadTheme() {
-        const theme = localStorage.getItem('theme') || 'classic';
+        const theme = localStorage.getItem('theme') || 'telegram-light';
         document.body.className = 'theme-' + theme;
     }
 
     function fetchMessages() {
         refreshBtn.disabled = true;
         refreshBtn.textContent = 'در حال بروزرسانی...';
-
         fetch('get_messages.php')
             .then(res => res.json())
             .then(data => {
@@ -278,11 +271,7 @@
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    div.innerHTML = `
-            <span class="username">${msg.username}</span>
-            ${msg.message}
-            <span class="time">${time}</span>
-          `;
+                    div.innerHTML = `<strong>${msg.username}</strong>\n${msg.message}\n<small>${time}</small>`;
                     chat.appendChild(div);
                 });
                 chat.scrollTop = chat.scrollHeight;
@@ -295,7 +284,6 @@
         e.preventDefault();
         const message = textarea.value.trim();
         if (!message) return;
-
         sendBtn.disabled = true;
         sendBtn.textContent = 'در حال ارسال...';
 
@@ -321,6 +309,5 @@
     loadTheme();
     fetchMessages();
 </script>
-
 </body>
 </html>
