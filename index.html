@@ -1,88 +1,114 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8"/>
-    <title>چت آنلاین ساده</title>
+    <meta charset="UTF-8">
+    <title>چت هکری ساده</title>
     <style>
         * {
             box-sizing: border-box;
-            font-family: Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', monospace;
         }
 
         html, body {
-            padding: 0;
             margin: 0;
+            padding: 0;
             height: 100%;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        body {
-            background-image: linear-gradient(#ffffff, #d3e4ff);
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
+            background-color: #0d0d0d;
+            color: #00ff66;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .wrapper {
-            width: 95vw;
-            height: 95vh;
-            border-radius: 20px;
-            background-color: white;
-            border: 2px solid #4d4dff;
+            width: 90vw;
+            height: 90vh;
+            border: 2px solid #00ff66;
+            background-color: #111;
             display: flex;
             flex-direction: column;
-            align-items: stretch;
-
-            & > #chat {
-                height: 100%;
-            }
-
-            & > #form {
-                height: 110px;
-                display: flex;
-                /*border-top: 2px solid #4d4dff;*/
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
-                padding-inline: 20px;
-
-                & > button {
-                    background-color: #4d4dff;
-                    border-radius: 1000px;
-                    width: 45px;
-                    height: 60px;
-                    border: none;
-                    cursor: pointer;
-
-                    &:active {
-                        opacity: 0.8;
-                    }
-                }
-
-                & > input {
-                    border: 2px solid #4d4dff;
-                    height: 60px;
-                    width: 100%;
-                    border-radius: 1005px;
-                    padding-inline: 15px;
-                    font-size: 18px;
-
-                    &:focus {
-                        outline: none;
-                    }
-
-                    &::placeholder {
-                        color: #bfbfbf;
-                    }
-                }
-            }
+            border-radius: 10px;
+            overflow: hidden;
         }
 
-        footer {
+        #chat {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scroll-behavior: smooth;
+            font-size: 15px;
+        }
 
+        .message {
+            background-color: rgba(0, 255, 102, 0.05);
+            border-left: 4px solid #00ff66;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+
+        .message .username {
+            font-weight: bold;
+            color: #00ff99;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .message .time {
+            display: block;
+            font-size: 11px;
+            color: #66ffcc;
+            margin-top: 4px;
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #00ff66;
+            padding: 10px;
+            background-color: #0d0d0d;
+        }
+
+        textarea {
+            resize: none;
+            min-height: 50px;
+            max-height: 180px;
+            overflow-y: hidden;
+            padding: 10px;
+            font-size: 15px;
+            background-color: #000;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            background-color: #002b1a;
+            color: #00ff66;
+            border: 1px solid #00ff66;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #004d33;
+        }
+
+        #chat::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat::-webkit-scrollbar-thumb {
+            background-color: #00ff66;
         }
     </style>
 </head>
@@ -92,61 +118,69 @@
     <div id="chat"></div>
 
     <form id="form">
-        <button type="submit" id="send">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                    <path d="M18.2929 15.2893C18.6834 14.8988 18.6834 14.2656 18.2929 13.8751L13.4007 8.98766C12.6195 8.20726 11.3537 8.20757 10.5729 8.98835L5.68257 13.8787C5.29205 14.2692 5.29205 14.9024 5.68257 15.2929C6.0731 15.6835 6.70626 15.6835 7.09679 15.2929L11.2824 11.1073C11.673 10.7168 12.3061 10.7168 12.6966 11.1073L16.8787 15.2893C17.2692 15.6798 17.9024 15.6798 18.2929 15.2893Z"
-                          fill="#ffffff"></path>
-                </g>
-            </svg>
-        </button>
-        <input type="text" id="message" autofocus placeholder="پیام خود را بنویسید..." autocomplete="off"/>
+        <textarea id="message" placeholder="پیام چند خطی بنویسید..."></textarea>
+        <button type="submit">ارسال</button>
     </form>
 </div>
-
-<footer>
-
-</footer>
 
 <script>
     const chat = document.getElementById('chat');
     const form = document.getElementById('form');
-    const messageInput = document.getElementById('message');
+    const textarea = document.getElementById('message');
+
+    // تنظیم ارتفاع خودکار با تایپ
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
+    });
+
+    // ارسال با Ctrl+Enter
+    textarea.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+    });
 
     function fetchMessages() {
         fetch('get_messages.php')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
                 chat.innerHTML = '';
                 data.forEach(msg => {
                     const div = document.createElement('div');
-                    div.classList.add('message');
+                    div.className = 'message';
+
                     const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', {
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    div.innerHTML = `<span class="username">${msg.username}:</span> ${msg.message} <span class="time">[${time}]</span>`;
+
+                    div.innerHTML = `
+            <span class="username">${msg.username}</span>
+            ${msg.message}
+            <span class="time">${time}</span>
+          `;
                     chat.appendChild(div);
                 });
                 chat.scrollTop = chat.scrollHeight;
             });
     }
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const message = messageInput.value.trim();
-        if (message === '') return;
+        const message = textarea.value.trim();
+        if (!message) return;
+
         fetch('send_message.php', {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'message=' + encodeURIComponent(message)
         })
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') {
-                    messageInput.value = '';
+                    textarea.value = '';
+                    textarea.style.height = 'auto';
                     fetchMessages();
                 } else {
                     alert(data.message);
@@ -154,9 +188,9 @@
             });
     });
 
-
     setInterval(fetchMessages, 3000);
     fetchMessages();
 </script>
+
 </body>
 </html>
