@@ -5,40 +5,48 @@
     <title>چت حرفه‌ای</title>
     <style>
         :root {
-            --bg: #1e1e1e;
-            --bg-chat: #252525;
-            --text: #33ff99;
-            --text-light: #66ffc2;
-            --border: #33cc88;
+            --bg: #ffffff;
+            --bg-chat: #f3f3f3;
+            --text: #222222;
+            --text-light: #555;
+            --border: #cccccc;
+            --button-bg: #e0e0e0;
+            --button-text: #222;
         }
 
-        body.theme-default {
-            --bg: #1e1e1e;
-            --bg-chat: #252525;
-            --text: #33ff99;
-            --text-light: #66ffc2;
-            --border: #33cc88;
+        body.theme-classic {
+            --bg: #ffffff;
+            --bg-chat: #f3f3f3;
+            --text: #222;
+            --text-light: #555;
+            --border: #ccc;
+            --button-bg: #e0e0e0;
+            --button-text: #222;
         }
 
         body.theme-green {
-            --bg: #0b2f23;
-            --bg-chat: #12382e;
-            --text: #34ffb4;
-            --text-light: #a8ffe7;
-            --border: #20c997;
+            --bg: #f2fff5;
+            --bg-chat: #e6ffed;
+            --text: #006644;
+            --text-light: #00875a;
+            --border: #b5e4c2;
+            --button-bg: #d3f9df;
+            --button-text: #005233;
         }
 
         body.theme-blue {
-            --bg: #1a2332;
-            --bg-chat: #232f45;
-            --text: #9fd3ff;
-            --text-light: #d0ecff;
-            --border: #3399ff;
+            --bg: #f0f8ff;
+            --bg-chat: #e6f3ff;
+            --text: #004080;
+            --text-light: #0066cc;
+            --border: #99cfff;
+            --button-bg: #cce6ff;
+            --button-text: #003366;
         }
 
         * {
             box-sizing: border-box;
-            font-family: 'Courier New', monospace;
+            font-family: 'Tahoma', sans-serif;
         }
 
         html, body {
@@ -57,23 +65,23 @@
             height: 90vh;
             background-color: var(--bg-chat);
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             position: relative;
         }
 
-        /* دکمه سه نقطه */
+        /* منو تنظیمات */
         .menu-button {
             position: absolute;
             top: 10px;
             left: 10px;
             background: none;
             border: none;
-            color: var(--text-light);
             font-size: 20px;
             cursor: pointer;
+            color: var(--text-light);
         }
 
         .menu-dropdown {
@@ -99,13 +107,13 @@
             font-size: 14px;
         }
 
-        #about {
-            display: none;
-            padding: 15px;
-            background-color: var(--bg-chat);
-            font-size: 13px;
-            line-height: 1.7;
-            border-top: 1px solid var(--border);
+        .github-link {
+            text-decoration: none;
+            color: var(--text-light);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 14px;
         }
 
         #chat {
@@ -116,13 +124,12 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            scroll-behavior: smooth;
-            font-size: 13.5px;
+            font-size: 14px;
             line-height: 1.6;
         }
 
         .message {
-            background-color: rgba(0, 255, 153, 0.05);
+            background-color: rgba(0, 0, 0, 0.03);
             border-right: 3px solid var(--border);
             padding: 8px 10px;
             border-radius: 6px;
@@ -155,7 +162,7 @@
         textarea {
             resize: none;
             min-height: 50px;
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: hidden;
             padding: 10px;
             font-size: 14px;
@@ -170,21 +177,23 @@
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
+            gap: 10px;
         }
 
         button {
-            padding: 6px 14px;
+            padding: 8px 14px;
             font-size: 14px;
-            background-color: transparent;
+            background-color: var(--button-bg);
+            color: var(--button-text);
             border: 1px solid var(--border);
-            color: var(--text);
             border-radius: 5px;
             cursor: pointer;
+            min-width: 100px;
         }
 
-        button:hover {
-            background-color: var(--border);
-            color: #000;
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         #chat::-webkit-scrollbar {
@@ -192,33 +201,28 @@
         }
 
         #chat::-webkit-scrollbar-thumb {
-            background-color: var(--text-light);
+            background-color: var(--border);
         }
     </style>
 </head>
-<body class="theme-default">
+<body>
 
 <div class="wrapper">
+    <a href="https://github.com/tikrack" target="_blank" class="github-link">GitHub ↗</a>
     <button class="menu-button" onclick="toggleMenu()">⋮</button>
     <div class="menu-dropdown" id="menu">
-        <button onclick="setTheme('default')">🖤 تم تیره ساده</button>
-        <button onclick="setTheme('green')">💚 تم سبز رترو</button>
-        <button onclick="setTheme('blue')">🔵 تم آبی ملایم</button>
-        <button onclick="toggleAbout()">ℹ️ درباره من</button>
+        <button onclick="setTheme('classic')">☀️ تم روشن کلاسیک</button>
+        <button onclick="setTheme('green')">🌿 تم سبز ملایم</button>
+        <button onclick="setTheme('blue')">🔷 تم آبی آسمانی</button>
     </div>
 
     <div id="chat"></div>
 
-    <div id="about">
-        این پروژه چت ساده برای آزمایش رابط کاربری و تجربه کاربری طراحی شده است.<br>
-        می‌توانید پیام‌های چند خطی بنویسید و از تم‌های مختلف لذت ببرید!
-    </div>
-
     <form id="form">
         <textarea id="message" placeholder="پیام خود را بنویسید..."></textarea>
         <div class="actions">
-            <button type="submit">ارسال</button>
-            <button type="button" onclick="fetchMessages()">🔄 بروزرسانی</button>
+            <button type="submit" id="sendBtn">ارسال</button>
+            <button type="button" onclick="fetchMessages()" id="refreshBtn">بروزرسانی</button>
         </div>
     </form>
 </div>
@@ -228,22 +232,41 @@
     const form = document.getElementById('form');
     const textarea = document.getElementById('message');
     const menu = document.getElementById('menu');
-    const about = document.getElementById('about');
+    const sendBtn = document.getElementById('sendBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
 
-    // افزایش ارتفاع textarea
+    // ارتفاع خودکار textarea
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
-        textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+        textarea.style.height = Math.min(textarea.scrollHeight, 180) + 'px';
     });
 
-    // ارسال با Ctrl+Enter
+    // Ctrl + Enter برای ارسال
     textarea.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && e.ctrlKey) {
-            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            form.dispatchEvent(new Event('submit', {cancelable: true, bubbles: true}));
         }
     });
 
+    function toggleMenu() {
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function setTheme(name) {
+        document.body.className = 'theme-' + name;
+        localStorage.setItem('theme', name);
+        menu.style.display = 'none';
+    }
+
+    function loadTheme() {
+        const theme = localStorage.getItem('theme') || 'classic';
+        document.body.className = 'theme-' + theme;
+    }
+
     function fetchMessages() {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = 'در حال بروزرسانی...';
+
         fetch('get_messages.php')
             .then(res => res.json())
             .then(data => {
@@ -263,6 +286,8 @@
                     chat.appendChild(div);
                 });
                 chat.scrollTop = chat.scrollHeight;
+                refreshBtn.textContent = 'بروزرسانی';
+                refreshBtn.disabled = false;
             });
     }
 
@@ -271,13 +296,18 @@
         const message = textarea.value.trim();
         if (!message) return;
 
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'در حال ارسال...';
+
         fetch('send_message.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'message=' + encodeURIComponent(message)
         })
             .then(res => res.json())
             .then(data => {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'ارسال';
                 if (data.status === 'success') {
                     textarea.value = '';
                     textarea.style.height = 'auto';
@@ -288,21 +318,7 @@
             });
     });
 
-    function toggleMenu() {
-        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function setTheme(name) {
-        document.body.className = 'theme-' + name;
-        menu.style.display = 'none';
-    }
-
-    function toggleAbout() {
-        about.style.display = about.style.display === 'block' ? 'none' : 'block';
-        menu.style.display = 'none';
-    }
-
-    // حذف setInterval – دستی با دکمه
+    loadTheme();
     fetchMessages();
 </script>
 
