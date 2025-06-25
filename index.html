@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8"/>
+    <title>چت آنلاین ساده</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        body {
+            background-image: linear-gradient(#ffffff, #d3e4ff);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wrapper {
+            width: 95vw;
+            height: 95vh;
+            border-radius: 20px;
+            background-color: white;
+            border: 2px solid #4d4dff;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+
+            & > #chat {
+                height: 100%;
+            }
+
+            & > #form {
+                height: 110px;
+                display: flex;
+                /*border-top: 2px solid #4d4dff;*/
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                padding-inline: 20px;
+
+                & > button {
+                    background-color: #4d4dff;
+                    border-radius: 1000px;
+                    width: 45px;
+                    height: 60px;
+                    border: none;
+                    cursor: pointer;
+
+                    &:active {
+                        opacity: 0.8;
+                    }
+                }
+
+                & > input {
+                    border: 2px solid #4d4dff;
+                    height: 60px;
+                    width: 100%;
+                    border-radius: 1005px;
+                    padding-inline: 15px;
+                    font-size: 18px;
+
+                    &:focus {
+                        outline: none;
+                    }
+
+                    &::placeholder {
+                        color: #bfbfbf;
+                    }
+                }
+            }
+        }
+
+        footer {
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div id="chat"></div>
+
+    <form id="form">
+        <button type="submit" id="send">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M18.2929 15.2893C18.6834 14.8988 18.6834 14.2656 18.2929 13.8751L13.4007 8.98766C12.6195 8.20726 11.3537 8.20757 10.5729 8.98835L5.68257 13.8787C5.29205 14.2692 5.29205 14.9024 5.68257 15.2929C6.0731 15.6835 6.70626 15.6835 7.09679 15.2929L11.2824 11.1073C11.673 10.7168 12.3061 10.7168 12.6966 11.1073L16.8787 15.2893C17.2692 15.6798 17.9024 15.6798 18.2929 15.2893Z"
+                          fill="#ffffff"></path>
+                </g>
+            </svg>
+        </button>
+        <input type="text" id="message" autofocus placeholder="پیام خود را بنویسید..." autocomplete="off"/>
+    </form>
+</div>
+
+<footer>
+
+</footer>
+
+<script>
+    const chat = document.getElementById('chat');
+    const form = document.getElementById('form');
+    const messageInput = document.getElementById('message');
+
+    function fetchMessages() {
+        fetch('get_messages.php')
+            .then(response => response.json())
+            .then(data => {
+                chat.innerHTML = '';
+                data.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.classList.add('message');
+                    const time = new Date(msg.created_at).toLocaleTimeString('fa-IR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    div.innerHTML = `<span class="username">${msg.username}:</span> ${msg.message} <span class="time">[${time}]</span>`;
+                    chat.appendChild(div);
+                });
+                chat.scrollTop = chat.scrollHeight;
+            });
+    }
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message === '') return;
+        fetch('send_message.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'message=' + encodeURIComponent(message)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    messageInput.value = '';
+                    fetchMessages();
+                } else {
+                    alert(data.message);
+                }
+            });
+    });
+
+
+    setInterval(fetchMessages, 3000);
+    fetchMessages();
+</script>
+</body>
+</html>
