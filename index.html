@@ -6,71 +6,26 @@
     <title>چت حرفه‌ای با تم‌های مدرن</title>
     <style>
         :root {
-            --bg: #fff;
-            --bg-chat: #f9f9f9;
-            --text: #222;
-            --border: #ddd;
-            --accent: #007bff;
-            --input-bg: #fff;
-        }
-
-        body.theme-telegram-light {
-            --bg: #ffffff;
-            --bg-chat: #e5f1fb;
-            --text: #2e2e2e;
-            --border: #c0deed;
-            --accent: #0088cc;
-            --input-bg: #ffffff;
-        }
-
-        body.theme-telegram-dark {
-            --bg: #1c1c1c;
-            --bg-chat: #2a2f32;
-            --text: #e5e5e5;
-            --border: #444;
-            --accent: #5db1f0;
-            --input-bg: #202225;
-        }
-
-        body.theme-github-light {
-            --bg: #f6f8fa;
-            --bg-chat: #ffffff;
-            --text: #24292e;
-            --border: #d1d5da;
-            --accent: #0366d6;
-            --input-bg: #ffffff;
-        }
-
-        body.theme-github-dark {
-            --bg: #0d1117;
-            --bg-chat: #161b22;
-            --text: #c9d1d9;
-            --border: #30363d;
-            --accent: #58a6ff;
-            --input-bg: #0d1117;
-        }
-
-        body.theme-material-light {
-            --bg: #fafafa;
-            --bg-chat: #ffffff;
-            --text: #212121;
-            --border: #e0e0e0;
-            --accent: #6200ea;
-            --input-bg: #ffffff;
-        }
-
-        body.theme-material-dark {
-            --bg: #121212;
-            --bg-chat: #1e1e1e;
-            --text: #e0e0e0;
-            --border: #333333;
-            --accent: #bb86fc;
-            --input-bg: #1c1c1c;
+            --bg: #000000;
+            --bg-chat: #000000;
+            --text: #dadada;
+            --border: #47ed00;
+            --accent: #47ed00;
+            --input-bg: #000000;
         }
 
         * {
             box-sizing: border-box;
             font-family: Tahoma, sans-serif;
+
+            ::-webkit-scrollbar-thumb {
+                background: #47ed00;
+            }
+
+            ::-webkit-scrollbar {
+                width: 5px;
+                background-color: #000000; /* or add it to the track */
+            }
         }
 
         html, body {
@@ -90,49 +45,6 @@
             background-color: var(--bg-chat);
         }
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: var(--bg);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 35px;
-            right: calc(-100% + 10px);
-            background-color: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            min-width: 160px;
-            z-index: 10;
-        }
-
-        .dropdown-content button,
-        .dropdown-content a {
-            display: block;
-            width: 100%;
-            text-align: right;
-            padding: 6px 12px;
-            background: none;
-            border: none;
-            color: var(--text);
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
 
         #chat {
             flex: 1;
@@ -148,17 +60,18 @@
             border: 1px solid var(--border);
             border-right: 3px solid var(--accent);
             padding: 10px;
-            border-radius: 6px;
             white-space: pre-wrap;
         }
 
         #form {
             padding: 12px;
-            border-top: 1px solid var(--border);
             background-color: var(--bg);
             display: flex;
             flex-direction: column;
             gap: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
 
         textarea {
@@ -171,8 +84,11 @@
             background-color: var(--input-bg);
             color: var(--text);
             border: 1px solid var(--border);
-            border-radius: 6px;
             line-height: 1.6;
+
+            &:focus {
+                outline: none;
+            }
         }
 
         .actions {
@@ -181,12 +97,17 @@
             gap: 10px;
         }
 
+        .text {
+            display: block;
+            margin-block: 10px;
+            padding-right: 20px;
+        }
+
         button {
             background-color: var(--accent);
-            color: #fff;
+            color: #000000;
             border: none;
             padding: 8px 14px;
-            border-radius: 5px;
             font-size: 14px;
             cursor: pointer;
             min-width: 100px;
@@ -195,22 +116,6 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="topbar">
-        <strong>چت</strong>
-        <div class="dropdown">
-            <button>⋮</button>
-            <div class="dropdown-content">
-                <button onclick="setTheme('telegram-light')">🌞 تلگرام روشن</button>
-                <button onclick="setTheme('telegram-dark')">🌙 تلگرام تیره</button>
-                <button onclick="setTheme('github-light')">🧾 گیت‌هاب روشن</button>
-                <button onclick="setTheme('github-dark')">🕶 گیت‌هاب تیره</button>
-                <button onclick="setTheme('material-light')">🎨 متریال روشن</button>
-                <button onclick="setTheme('material-dark')">🌌 متریال تاریک</button>
-                <a href="https://github.com/tikrack" target="_blank">🔗 GitHub من</a>
-            </div>
-        </div>
-    </div>
-
     <div id="chat"></div>
 
     <form id="form">
@@ -240,20 +145,10 @@
         }
     });
 
-    function setTheme(name) {
-        document.body.className = 'theme-' + name;
-        localStorage.setItem('theme', name);
-    }
-
-    function loadTheme() {
-        const theme = localStorage.getItem('theme') || 'telegram-light';
-        document.body.className = 'theme-' + theme;
-    }
-
     function fetchMessages() {
         refreshBtn.disabled = true;
         refreshBtn.textContent = 'در حال بروزرسانی...';
-        fetch('get_messages.php')
+        fetch('https://forchat.ir/get_messages.php')
             .then(res => res.json())
             .then(data => {
                 chat.innerHTML = '';
@@ -264,7 +159,7 @@
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    div.innerHTML = `<strong>${msg.username}</strong>\n${msg.message}\n<small>${time}</small>`;
+                    div.innerHTML = `<strong>${msg.username}</strong><span class="text">${msg.message}</span><small>${time}</small>`;
                     chat.appendChild(div);
                 });
                 chat.scrollTop = chat.scrollHeight;
@@ -275,15 +170,20 @@
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
+        if (localStorage.getItem("username") === null) {
+            let username = prompt("نام خود را وارد کنید :(تنها یکبار میتوان وارد کرد)")
+            localStorage.setItem("username", username);
+        }
+
         const message = textarea.value.trim();
         if (!message) return;
         sendBtn.disabled = true;
         sendBtn.textContent = 'در حال ارسال...';
 
-        fetch('send_message.php', {
+        fetch('https://forchat.ir/send_message.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: 'message=' + encodeURIComponent(message)
+            body: "message=" + message + "& username=" + localStorage.getItem("username")
         })
             .then(res => res.json())
             .then(data => {
@@ -299,7 +199,6 @@
             });
     });
 
-    loadTheme();
     fetchMessages();
 </script>
 </body>
